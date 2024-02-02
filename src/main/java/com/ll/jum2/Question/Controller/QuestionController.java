@@ -1,5 +1,6 @@
 package com.ll.jum2.Question.Controller;
 
+import com.ll.jum2.Member.Entity.Member;
 import com.ll.jum2.Question.Entity.Question;
 import com.ll.jum2.Question.Form.QuestionCreateForm;
 import com.ll.jum2.Question.Service.QuestionService;
@@ -7,7 +8,10 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
 
@@ -25,9 +29,9 @@ public class QuestionController {
     }
 
     @PostMapping("/write")
-    public String questionWrite2(@Valid QuestionCreateForm questionCreateForm) {
+    public String questionWrite2(@Valid QuestionCreateForm questionCreateForm , Member author) {
 
-        questionService.createWrite(questionCreateForm.getTitle() , questionCreateForm.getContent() );
+        questionService.createWrite(questionCreateForm.getTitle() , questionCreateForm.getContent());
 
 
         return "redirect:/question/list";
@@ -73,5 +77,15 @@ public class QuestionController {
      questionService.modifyWrite(question , questionCreateForm.getTitle() , questionCreateForm.getContent());
 
         return "redirect:/question/detail/%s".formatted(id);
+    }
+
+    @GetMapping("/delete/{id}")
+    public String deleteQuestion(@PathVariable Long id) {
+
+        Question question = this.questionService.getQuestion(id);
+
+        questionService.deleteWrite(question);
+
+        return "redirect:/question/list";
     }
 }

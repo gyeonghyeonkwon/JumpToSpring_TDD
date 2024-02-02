@@ -1,5 +1,6 @@
 package com.ll.jum2.Question.Service;
 
+import com.ll.jum2.Member.Entity.Member;
 import com.ll.jum2.Question.Entity.Question;
 import com.ll.jum2.Question.Repository.QuestionRepository;
 import org.junit.jupiter.api.DisplayName;
@@ -25,6 +26,10 @@ class QuestionServiceTest {
     @Autowired
     QuestionRepository questionRepository;
 
+   Member author = Member.builder()
+           .username("test")
+           .build();
+
     @Test
     @DisplayName("게시글 작성")
     void write(){
@@ -45,7 +50,8 @@ class QuestionServiceTest {
         String title =  "하하하2";
         String content = "호호호2";
 
-        Question question = this.questionService.createWrite(title , content);
+
+        Question question = this.questionService.createWrite(title , content );
 
         List<Question> questions =  questionService.getList();
 
@@ -59,16 +65,22 @@ class QuestionServiceTest {
 
         String title =  "하하하하4";
         String content = "호호호호4";
-        Question question = this.questionService.createWrite(title , content);
 
 
 
-        String title2 = "하하";
-        String content2 = "호호";
-        this.questionService.modifyWrite(null , title2 , content2);
+        Question question = this.questionService.createWrite(title , content );
 
-        assertThat(question.getTitle()).isNotEqualTo("하하");
+         String title2 = "하하"; //제목 변경
+         String content2 = "호호"; // 내용 변경
+
+         question.setTitle(title2); //제목 변경
+         question.setContent(content2); // 내용 변경
+        this.questionService.modifyWrite( question , title2 , content2);
+
+        assertThat(question.getTitle()).isEqualTo("하하");
+        assertThat(question.getContent()).isEqualTo("호호");
         assertThat(question.getId()).isEqualTo(1);
+
     }
 
     @Test
@@ -77,7 +89,8 @@ class QuestionServiceTest {
 
         String title =  "하하하3";
         String content = "호호호3";
-        Question question = this.questionService.createWrite(title , content);
+        Question question = this.questionService.createWrite(title , content );
+
 
         Question question1 = this.questionService.getQuestion(1L);
 
@@ -85,4 +98,22 @@ class QuestionServiceTest {
 
     }
 
+    @Test
+    @DisplayName("게시글 삭제")
+    void deleteQuestion() {
+
+        String title =  "하하하6";
+        String content = "호호호6";
+
+
+        Question question = this.questionService.createWrite(title , content );
+
+
+        questionService.deleteWrite(question);
+
+
+        List<Question> questions =  questionService.getList();
+        assertEquals(0 , questions.size());
+
+    }
 }

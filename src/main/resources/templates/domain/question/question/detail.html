@@ -16,6 +16,8 @@
 
                th:text="수정"></a>
         </div>
+        <a onclick="return confirm('정말로 삭제하시겠습니까?');" class="text-sm text-gray-500 hover:text-red-500" th:href="@{|/question/delete/${question.id}|}" >글 삭제</a>
+
     </div>
 
 </div>

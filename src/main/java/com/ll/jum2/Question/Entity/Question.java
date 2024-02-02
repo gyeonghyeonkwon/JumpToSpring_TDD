@@ -25,7 +25,7 @@ public class Question extends BaseEntity {
     @Column(columnDefinition = "TEXT")
     private String content;
 
-    @OneToMany(mappedBy = "question", cascade = CascadeType.REMOVE ) //양방향 관계 에서 만 작성
+    @OneToMany(mappedBy = "question", cascade = CascadeType.REMOVE ) //양방향 관계 에서 만 작성 , 게시글이 삭제되면 댓글도 같이 삭제된다.
     private List<Answer> answerList;
 
     @ManyToOne

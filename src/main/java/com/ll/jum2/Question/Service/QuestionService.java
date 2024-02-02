@@ -14,7 +14,7 @@ public class QuestionService {
 
     private final QuestionRepository questionRepository;
 
-    public Question createWrite (String title , String content) {
+    public Question createWrite (String title , String content ) {
 
     Question question = Question.builder()
             .title(title)
@@ -46,6 +46,12 @@ public class QuestionService {
 
         question.setTitle(title);
         question.setContent(content);
+
       this.questionRepository.save(question);
+    }
+
+    public void deleteWrite(Question question) {
+
+        this.questionRepository.delete(question);
     }
 }
