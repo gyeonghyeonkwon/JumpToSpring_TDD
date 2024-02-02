@@ -22,6 +22,7 @@ public class SecurityConfig {
 
     @Bean
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+       http.csrf().disable();
         http
                 .authorizeHttpRequests(
                         authorizeHttpRequests -> authorizeHttpRequests
@@ -43,16 +44,18 @@ public class SecurityConfig {
                 .logout((logout) -> logout
                         .logoutRequestMatcher(new AntPathRequestMatcher("/member/logout"))
                         .logoutSuccessUrl("/question/list")
-                        .invalidateHttpSession(true))
+                        .invalidateHttpSession(true));
 
 
-                .csrf(
-                        csrf -> csrf
-                                .ignoringRequestMatchers(
-                                        "/h2-console/**"
-                                )
 
-                );
+//                .csrf(
+//                        csrf -> csrf
+//                                .ignoringRequestMatchers(
+//                                        "/h2-console/**"
+//                                )
+
+
+//                );
 
 
         return http.build();

@@ -7,10 +7,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -22,7 +19,7 @@ public class QuestionController {
     private final QuestionService questionService;
 
     @GetMapping("/write")
-    public String questionWrite() {
+    public String questionWrite(QuestionCreateForm questionCreateForm) {
 
         return "domain/question/question/write";
     }
@@ -54,5 +51,27 @@ public class QuestionController {
         model.addAttribute("question" ,question);
 
         return "domain/question/question/detail";
+    }
+
+    @GetMapping("/modify/{id}")
+    public String showModifyQuestion(@PathVariable Long id , QuestionCreateForm questionCreateForm) {
+
+        Question question = this.questionService.getQuestion(id);
+
+        questionCreateForm.setTitle(question.getTitle()); // 기존 제목을 불러옴
+        questionCreateForm.setContent(question.getContent()); //기존 내용을 불러옴
+
+        return "domain/question/question/write";
+    }
+
+
+    @PostMapping("/modify/{id}")
+    public String modifyQuestion(@PathVariable Long id , @Valid QuestionCreateForm questionCreateForm) {
+
+     Question question = this.questionService.getQuestion(id);
+
+     questionService.modifyWrite(question , questionCreateForm.getTitle() , questionCreateForm.getContent());
+
+        return "redirect:/question/detail/%s".formatted(id);
     }
 }

@@ -41,4 +41,11 @@ public class QuestionService {
         }
     }
 
+    //글 수정
+    public void modifyWrite(Question question , String title , String content) {
+
+        question.setTitle(title);
+        question.setContent(content);
+      this.questionRepository.save(question);
+    }
 }
