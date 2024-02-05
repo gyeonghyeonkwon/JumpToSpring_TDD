@@ -1,18 +1,22 @@
 <html layout:decorate="~{global/layout}">
 <div layout:fragment="content" class="container">
-    <h5 class="my-3 border-bottom pb-2">질문등록</h5>
+    <h5 class="text-2xl my-2 border-b pb-2">질문등록</h5>
     <form th:object="${questionCreateForm}" method="post">
 <!--        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />-->
         <!--    <div th:replace="~{form_errors :: formErrorsFragment}"></div>-->
         <div class="mb-3">
             <label for="title" class="form-label">제목</label>
-            <input type="text" th:field="*{title}" class="form-control">
+            <input type="text" th:field="*{title}" class="form-control  input input-bordered w-full  mb-4">
         </div>
         <div class="mb-3">
             <label for="content" class="form-label">내용</label>
-            <textarea th:field="*{content}" class="form-control" rows="10"></textarea>
+<!--            <textarea th:field="*{content}" class="form-control" rows="10"></textarea>-->
+            <textarea th:field="*{content}" rows="" placeholder="내용을 입력해주세요" class="form-control textarea textarea-bordered textarea-lg w-full "></textarea>
         </div>
-        <input type="submit" value="저장하기" class="btn btn-primary my-2">
+        <div class="my-5">
+            <button class="btn btn-neutral">저장</button>
+            <a href="/question/list" class="btn btn-error ">취소</a>
+        </div>
     </form>
 
 </div>
